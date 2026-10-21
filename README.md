@@ -1,6 +1,5 @@
 # SURAKSHA-CITY: Smart City & Critical Infrastructure Cybersecurity Operations Center (SOC)
 
-[![Hackathon: Cyber Samvad 2026](https://img.shields.io/badge/Hackathon-Cyber%20Samvad%202026-blue.svg)](https://adaniuni.ac.in)
 [![Organizers](https://img.shields.io/badge/Organizers-Adani%20University%20%7C%20Demmisto-green.svg)](https://demmisto.com)
 [![Problem Statement 4](https://img.shields.io/badge/Track-PS--4%20Smart%20City%20Cybersecurity-red.svg)](#)
 [![Python Version](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](#)
