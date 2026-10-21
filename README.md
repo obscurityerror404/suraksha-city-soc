@@ -143,16 +143,6 @@ python tests/test_app.py
 
 ---
 
-## 🏆 Presentation & Judging Resources
-Everything your team needs to win the hackathon is packaged directly in this repository:
-- **Built-in Presentation Tab:** Click **"🏆 Pitch Deck"** directly inside the web UI for an instant slide presentation during your turn!
-- **Speaker Notes:** [presentation/PITCH_DECK.md](presentation/PITCH_DECK.md)
-- **Live Demo Script:** [presentation/DEMO_SCRIPT.md](presentation/DEMO_SCRIPT.md)
-- **Team Roles & Jury Q&A Defense:** [presentation/TEAM_ROLES_AND_QA.md](presentation/TEAM_ROLES_AND_QA.md)
-- **Executive Summary:** [presentation/EXECUTIVE_SUMMARY.md](presentation/EXECUTIVE_SUMMARY.md)
-
----
-
 ## 🛡️ Responsible Design & Safety Statement
 In strict adherence to the student instructions:
 > *"Use only a simulated environment or systems you are authorised to test. Do not scan, access, disrupt, or attack real city infrastructure."*
