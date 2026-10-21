@@ -1,6 +1,5 @@
 # SURAKSHA-CITY: Smart City & Critical Infrastructure Cybersecurity Operations Center (SOC)
 
-[![Organizers](https://img.shields.io/badge/Organizers-Adani%20University%20%7C%20Demmisto-green.svg)](https://demmisto.com)
 [![Problem Statement 4](https://img.shields.io/badge/Track-PS--4%20Smart%20City%20Cybersecurity-red.svg)](#)
 [![Python Version](https://img.shields.io/badge/Python-3.10%2B-brightgreen.svg)](#)
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)](#)
