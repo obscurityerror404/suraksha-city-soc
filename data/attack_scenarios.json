@@ -1,0 +1,442 @@
+[
+  {
+    "id": "SCN-01-WATER-SCADA",
+    "title": "Water Treatment PLC Overpressure & Valve Tampering",
+    "sector": "Water & Sanitation SCADA",
+    "category": "ICS/SCADA Parameter Manipulation (Stuxnet-style)",
+    "targetAssetId": "PLC-WTR-01",
+    "secondaryAssetId": "PRS-VALV-03",
+    "mitreId": "T0836: Modify Parameter / T0855: Unauthorized Command",
+    "threatLevel": "CRITICAL",
+    "riskScore": 94,
+    "urgency": "Immediate (Level-1 Incident)",
+    "attackIngress": {
+      "origin": "Compromised Field Technician Laptop via Vendor Maintenance VPN",
+      "entryPath": "External Internet -> Municipal VPN Gateway -> IT/OT DMZ -> Water VLAN 12 (10.240.12.0/24)",
+      "technique": "Lateral Movement & Man-in-the-Middle (MitM) ARP Poisoning targeting Modbus TCP Port 502"
+    },
+    "maliciousPayload": {
+      "protocol": "Modbus TCP (Port 502)",
+      "functionCode": "0x10 (Write Multiple Registers)",
+      "registerTarget": "40104 (Pneumatic Pressure Limit Setpoint)",
+      "rawHexDump": "00 01 00 00 00 0B 01 10 9C A8 00 01 02 03 E8",
+      "injectedValue": "1000 kPa (10.0 Bar) [Factory Safety Limit: 450 kPa / 4.5 Bar]"
+    },
+    "detectionEngine": {
+      "method": "Deep Packet Inspection (DPI) + Industrial Process Anomaly Sensor",
+      "triggerRule": "RULE-ICS-WTR-402: Modbus FC16 Write from unauthorized IP 192.168.88.204 to Safety Register 40104",
+      "telemetryAnomaly": "Pressure derivative dP/dt exceeded 1.6 Bar/sec threshold; physical hydraulic pressure surged from 4.2 Bar to 9.85 Bar within 4 seconds",
+      "confidence": "99.2% (Physical Sensor + Network Signature Match)"
+    },
+    "awarenessLesson": {
+      "coreConcept": "IT vs. OT Security & Lack of Native SCADA Encryption",
+      "analystGuideline": "Legacy Modbus protocols have ZERO built-in authentication or encryption. Any device on the subnet can inject arbitrary setpoints. Analysts must never simply kill power—abrupt pump shutdown causes water hammer pipe ruptures. Mechanical pressure relief bypass MUST be verified first!"
+    },
+    "potentialImpact": "Catastrophic pipeline rupture risk at North Reservoir; Potential contaminated water surge or civic drinking water loss for 250,000 residents; Structural damage estimated at ₹4.2 Crore.",
+    "telemetryChanges": {
+      "pressure_bar": 9.85,
+      "flow_rate_lps": 780,
+      "pump_hz": 60.0,
+      "packet_rate_sec": 142
+    },
+    "anomalyEvidence": [
+      "Modbus TCP Function Code 0x10 (Write Multiple Registers) injected from unauthenticated IP 192.168.88.204",
+      "Overpressure setpoint register 40104 altered from 4.5 Bar to 10.0 Bar",
+      "Safety interlock relay heartbeat missed for 3 consecutive cycles (timeout 1500ms)",
+      "Unsynchronized firmware checksum delta detected on PLC Controller EEPROM"
+    ],
+    "playbook": [
+      {
+        "id": "step1",
+        "title": "Zero-Trust Device Isolation",
+        "command": "isolate --asset PLC-WTR-01 --port eth1",
+        "description": "Quarantine PLC-WTR-01 Ethernet interface from the OT supervisory network to sever remote malicious Modbus commands.",
+        "actionType": "ISOLATE_NETWORK",
+        "assetId": "PLC-WTR-01",
+        "status": "PENDING"
+      },
+      {
+        "id": "step2",
+        "title": "Activate Mechanical Fail-Safe Bypass",
+        "command": "failsafe --asset PRS-VALV-03 --mode prv-bypass",
+        "description": "Trigger physical pneumatic pressure relief valve (PRV) bypass to drop pipeline pressure safely below 5.0 Bar.",
+        "actionType": "ENGAGE_FAILSAFE",
+        "assetId": "PRS-VALV-03",
+        "status": "PENDING"
+      },
+      {
+        "id": "step3",
+        "title": "Dispatch Rapid Response Team & CERT-In Notification",
+        "command": "dispatch --team water-scada --certin-ot --priority critical",
+        "description": "Notify City Chief Water Works Engineer, Emergency Municipal Duty Officer, and submit automated incident alert to CERT-In OT Cell.",
+        "actionType": "DISPATCH_TEAM",
+        "team": "State Water SCADA Response Unit & CERT-In OT Security Team",
+        "status": "PENDING"
+      },
+      {
+        "id": "step4",
+        "title": "Cryptographic Hash & Forensics Preservation",
+        "command": "forensics --pcap-dump --sha256 --lock-evidence",
+        "description": "Capture PCAP traffic dump of rogue Modbus frames, calculate SHA-256 evidence hash, and lock audit log for legal compliance.",
+        "actionType": "LOG_FORENSICS",
+        "status": "PENDING"
+      },
+      {
+        "id": "step5",
+        "title": "Verify Public Water Supply Continuity",
+        "command": "verify-continuity --sector water --gravity-feed",
+        "description": "Confirm automated failover to Gravity Reservoir Feed Ring C to guarantee uninterrupted clean water supply to hospitals and households.",
+        "actionType": "VERIFY_CONTINUITY",
+        "status": "PENDING"
+      }
+    ],
+    "continuityPlan": "Secondary gravity feed lines automatically engage at 3.5 Bar. Zero downtime in drinking water distribution. Civic advisory not required."
+  },
+  {
+    "id": "SCN-02-TRAFFIC-MITM",
+    "title": "Arterial Traffic Signal MitM & All-Green Collision Exploit",
+    "sector": "Traffic Management (ITMS)",
+    "category": "NTCIP Protocol Injection & Conflict Bypass",
+    "targetAssetId": "PLC-TRF-04",
+    "secondaryAssetId": "GW-EMP-01",
+    "mitreId": "T0803: Block Command Message / T0816: Device Modification",
+    "threatLevel": "CRITICAL",
+    "riskScore": 96,
+    "urgency": "Immediate (Level-1 Incident)",
+    "attackIngress": {
+      "origin": "Rogue Cellular 4G LTE Tap physically spliced into roadside signal cabinet",
+      "entryPath": "Physical lock bypass on roadside cabinet -> RJ45 Ethernet tap into Managed Industrial Switch Port 4",
+      "technique": "Unauthenticated SNMP/NTCIP 1202 broadcast packet injection over UDP Port 161"
+    },
+    "maliciousPayload": {
+      "protocol": "NTCIP 1202 (Traffic Actuated Signal Controller Profile)",
+      "functionCode": "SNMP SetRequest (Community: 'public')",
+      "registerTarget": "OID 1.3.6.1.4.1.1206.4.2.1.1.1 (Phase Hold Force All-Green)",
+      "rawHexDump": "30 29 02 01 00 04 06 70 75 62 6C 69 63 A3 1C 02 04 1B A4",
+      "injectedValue": "Phase 2 (North-South) = GREEN & Phase 4 (East-West) = GREEN (Simultaneous)"
+    },
+    "detectionEngine": {
+      "method": "Hardware Conflict Monitor Unit (CMU) Voltage Interlock + SNMP Traffic Anomaly Monitor",
+      "triggerRule": "RULE-CMU-CONFLICT-01: Conflicting dual green voltage detected on Signal Field Terminals 2 & 4",
+      "telemetryAnomaly": "Cycle time dropped from 90s to 10s deadlock; CMU hardware interlock relay tripped at 10:31:02",
+      "confidence": "99.8% (Hardware Voltage Sensor Detection)"
+    },
+    "awarenessLesson": {
+      "coreConcept": "Physical Safety Interlocks in Cyber-Physical Systems (CPS)",
+      "analystGuideline": "In traffic systems, software cannot be trusted alone. Signal cabinets use an analog, hardwired Conflict Monitor Unit (CMU). When an exploit forces dual green lights, the CMU must automatically trip to Flashing Amber to prevent catastrophic high-speed arterial collisions."
+    },
+    "potentialImpact": "Severe multi-vehicle collision hazard at major 4-way arterial intersection (Mahatma Gandhi Marg); Total gridlock on designated Civil Hospital emergency ambulance corridor.",
+    "telemetryChanges": {
+      "cycle_time_sec": 10,
+      "active_phase": "CONFLICT: All-Direction Green Phase Injected",
+      "conflict_monitor": "ALERT: Conflicting Green Phase Active",
+      "packet_rate_sec": 380
+    },
+    "anomalyEvidence": [
+      "Unauthorized UDP NTCIP broadcast packets on port 161 (SNMPv1 community string bypass attempt)",
+      "Phase hold override command forced green signals on both North-South and East-West corridors simultaneously",
+      "Hardware Conflict Monitor Unit (CMU) triggered safety trip circuit at 10:31:02",
+      "Packet origin traced to unauthorized rogue Wi-Fi/4G dongle connected to roadside signal cabinet"
+    ],
+    "playbook": [
+      {
+        "id": "step1",
+        "title": "Force Hardware Conflict Monitor Flashing Amber",
+        "command": "failsafe --asset PLC-TRF-04 --mode flash-amber",
+        "description": "Engage hardware interlock relay to force all intersection signal faces into Flashing Yellow / Amber cautionary mode.",
+        "actionType": "ENGAGE_FAILSAFE",
+        "assetId": "PLC-TRF-04",
+        "status": "PENDING"
+      },
+      {
+        "id": "step2",
+        "title": "Quarantine Controller Roadside Switch Port",
+        "command": "isolate --asset PLC-TRF-04 --port switch-port-4",
+        "description": "Remotely disable physical switch port on OT Ring Switch #4 to sever attacker access from roadside cabinet tap.",
+        "actionType": "ISOLATE_NETWORK",
+        "assetId": "PLC-TRF-04",
+        "status": "PENDING"
+      },
+      {
+        "id": "step3",
+        "title": "Dispatch Traffic Police Patrol & Field Technician",
+        "command": "dispatch --team traffic-police --unit junction-4",
+        "description": "Send urgent high-priority dispatch to City Traffic Control Room for manual officer traffic direction and cabinet inspection.",
+        "actionType": "DISPATCH_TEAM",
+        "team": "City Traffic Police Control Room & ITMS Rapid Field Team",
+        "status": "PENDING"
+      },
+      {
+        "id": "step4",
+        "title": "Reroute Emergency Ambulances to Secondary Corridor",
+        "command": "reroute --emergency-corridor nehru-bridge",
+        "description": "Switch V2X emergency green corridor to bypass Junction 4 via Nehru Bridge arterial route.",
+        "actionType": "VERIFY_CONTINUITY",
+        "status": "PENDING"
+      },
+      {
+        "id": "step5",
+        "title": "Generate Forensic Timeline & Police Report",
+        "command": "forensics --export-fir --cyber-crime-cell",
+        "description": "Compile packet capture and CCTV timestamp to file cyber intrusion FIR with State Cyber Police Division.",
+        "actionType": "LOG_FORENSICS",
+        "status": "PENDING"
+      }
+    ],
+    "continuityPlan": "Signal hardware failsafe guarantees flashing yellow default within 200ms. Traffic flow slows safely without catastrophic collision."
+  },
+  {
+    "id": "SCN-03-POWER-BLACKOUT",
+    "title": "Substation 11kV Feeder DNP3 Relay Trip Attack",
+    "sector": "Power & Energy Grid",
+    "category": "IEC 61850 / DNP3 False Command Flood",
+    "targetAssetId": "IED-PWR-07",
+    "secondaryAssetId": "INV-SLR-04",
+    "mitreId": "T0855: Unauthorized Command / T0831: Manipulation of Control",
+    "threatLevel": "HIGH",
+    "riskScore": 88,
+    "urgency": "High (Level-2 Incident)",
+    "attackIngress": {
+      "origin": "Stolen Substation Remote Access Gateway Credentials (Phished Subcontractor)",
+      "entryPath": "Vendor Remote Telemetry Link -> SCADA Substation Gateway -> Substation Process Bus (IEC 61850 / DNP3)",
+      "technique": "Select-Before-Operate (SBO) command replay flood bypass"
+    },
+    "maliciousPayload": {
+      "protocol": "DNP3 (Distributed Network Protocol 3) over TCP Port 20000",
+      "functionCode": "0x05 (Direct Operate - No Ack)",
+      "registerTarget": "Control Relay Output Block (CROB) Object 12, Variation 1, Index 3 (Feeder Trip)",
+      "rawHexDump": "05 64 0E 04 01 00 00 00 05 0C 01 17 01 03 01 00",
+      "injectedValue": "Force Breaker OPEN (Trip 11kV Feeder 4 to Civil Hospital)"
+    },
+    "detectionEngine": {
+      "method": "Network Behavior Analysis (NBA) for SCADA Protocols + IEC 61850 Dissector",
+      "triggerRule": "RULE-DNP3-SBO-FLOOD: Burst of 75 unauthenticated trip commands within 1000ms",
+      "telemetryAnomaly": "11kV busbar voltage plummeted to 9.4 kV; grid frequency jittered to 48.70 Hz; feeder breaker forced OPEN",
+      "confidence": "98.5% (DNP3 Packet Sequence Analysis)"
+    },
+    "awarenessLesson": {
+      "coreConcept": "Substation Cyber Defense & Industrial Protocol Cryptography",
+      "analystGuideline": "Power substations are high-value targets (similar to Ukraine 2015/2016 attacks). Modern substations require IEC 62351 cryptographic authentication. Analysts must immediately isolate the rogue process bus and verify hospital Automatic Transfer Switches (ATS) activate diesel/solar microgrids."
+    },
+    "potentialImpact": "Loss of grid power to Civil Hospital, District Data Center, and Northern Municipal Water Filtration facility; Potential surge damage to industrial microgrids.",
+    "telemetryChanges": {
+      "grid_frequency_hz": 48.70,
+      "bus_voltage_kv": 9.40,
+      "load_current_amps": 12,
+      "breaker_status": "TRIPPED_UNAUTHORIZED (Open)"
+    },
+    "anomalyEvidence": [
+      "Burst of 75 unauthorized DNP3 Select-Before-Operate (SBO) command packets directed at Object 12 Point 3 (Feeder Breaker Trip)",
+      "Source IP: 10.240.30.98 (Unauthorized device on OT Substation LAN)",
+      "Authentication token header missing cryptographic signature required by IEEE 1686",
+      "Rapid voltage dip observed across Busbar 2"
+    ],
+    "playbook": [
+      {
+        "id": "step1",
+        "title": "Block Rogue Substation MAC Address",
+        "command": "isolate --asset IED-PWR-07 --quarantine-mac 00:1A:E8:22:90:BC",
+        "description": "Issue 802.1X quarantine rule on Ruggedcom switch port to terminate rogue device connection.",
+        "actionType": "ISOLATE_NETWORK",
+        "assetId": "IED-PWR-07",
+        "status": "PENDING"
+      },
+      {
+        "id": "step2",
+        "title": "Activate Hospital Island Microgrid & Diesel Generators",
+        "command": "failsafe --asset INV-SLR-04 --mode island-microgrid",
+        "description": "Trigger automated ATS (Automatic Transfer Switch) to maintain uninterrupted power to ICU, NICU, and operating theaters.",
+        "actionType": "ENGAGE_FAILSAFE",
+        "assetId": "INV-SLR-04",
+        "status": "PENDING"
+      },
+      {
+        "id": "step3",
+        "title": "Alert State Electricity Transmission Utility",
+        "command": "dispatch --team sldc-grid-soc --verify-manual-interlock",
+        "description": "Contact Chief Load Dispatcher (SLDC) and Substation Duty Engineer for physical key-lock verification before manual breaker reclose.",
+        "actionType": "DISPATCH_TEAM",
+        "team": "State Electricity Discom Grid SOC & Substation Physical Security",
+        "status": "PENDING"
+      },
+      {
+        "id": "step4",
+        "title": "Log SCADA Event Sequence of Events (SOE)",
+        "command": "forensics --export-soe-millisecond-log",
+        "description": "Record millisecond-accurate SOE logs into secure immutable audit vault for root cause analysis.",
+        "actionType": "LOG_FORENSICS",
+        "status": "PENDING"
+      }
+    ],
+    "continuityPlan": "Hospital ATS transfer engages in 1.4 seconds. Solar microgrid switches to island mode to power emergency communications."
+  },
+  {
+    "id": "SCN-04-DDOS-DISPATCH",
+    "title": "Emergency 112 Dispatch Server DDoS & API Exhaustion",
+    "sector": "Public Safety & Governance",
+    "category": "Distributed Denial of Service (DDoS) & Syn Flood",
+    "targetAssetId": "DISP-SRV-02",
+    "secondaryAssetId": "SRV-EGOV-01",
+    "mitreId": "T0814: Denial of Service / T0813: Denial of Control",
+    "threatLevel": "HIGH",
+    "riskScore": 79,
+    "urgency": "High (Level-2 Incident)",
+    "attackIngress": {
+      "origin": "Global Mirai-variant IoT Botnet (Spoofed ASNs across 3,200 IP nodes)",
+      "entryPath": "Public Internet -> City BGP Gateway -> Load Balancer Cluster -> Dispatch Application Pool",
+      "technique": "Volumetric TCP SYN Flood on Port 443 + Layer-7 HTTP POST Flooding on /api/v1/dispatch"
+    },
+    "maliciousPayload": {
+      "protocol": "TCP SYN + HTTPS Layer 7 POST",
+      "functionCode": "HTTP POST /api/v1/dispatch/create-emergency (Malformed JSON)",
+      "registerTarget": "Application Thread Backlog & Postgres Connection Pool",
+      "rawHexDump": "50 4F 53 54 20 2F 61 70 69 2F 76 31 2F 64 69 73 70 61 74 63 68",
+      "injectedValue": "14,900 req/sec (Nominal baseline: 140 req/sec)"
+    },
+    "detectionEngine": {
+      "method": "NetFlow Volumetric Threshold Monitoring + Web Application Firewall (WAF)",
+      "triggerRule": "RULE-WAF-DDOS-09: Inbound HTTP request rate > 5000 req/sec with anomalous user-agents",
+      "telemetryAnomaly": "CPU utilization surged to 98.4%; TCP backlog queue saturated; database latency spiked from 14ms to 3,400ms",
+      "confidence": "97.8% (Volumetric Rate Signature)"
+    },
+    "awarenessLesson": {
+      "coreConcept": "Public Safety Infrastructure Resilience & Scrubbing",
+      "analystGuideline": "Emergency 112 services cannot afford even 30 seconds of downtime. SOC analysts must quickly reroute ingress BGP routing through upstream DDoS scrubbing centers and activate failover to air-gapped copper/PSTN CAD workstations."
+    },
+    "potentialImpact": "Citizens unable to connect to 112 emergency police, fire, and ambulance dispatch; Web call-taking consoles experiencing 18-second freezes.",
+    "telemetryChanges": {
+      "server_cpu_pct": 98.4,
+      "req_per_sec": 14900,
+      "db_latency_ms": 3400,
+      "active_calls": 82
+    },
+    "anomalyEvidence": [
+      "Volumetric SYN Flood exceeding 4.2 Gbps originating from 3,200 external botnet IPs targeting port 443",
+      "HTTP POST flood directed at /api/v1/dispatch/create-emergency endpoint with malformed JSON payloads",
+      "Server connection backlog pool depleted to 0 available worker threads",
+      "Geo-location analysis reveals spoofed source ASNs"
+    ],
+    "playbook": [
+      {
+        "id": "step1",
+        "title": "Engage Upstream Cloudflare / BGP Scrubbing Center",
+        "command": "scrubbing --route-bgp national-clearinghouse --drop-syn-flood",
+        "description": "Reroute public DNS traffic through National Scrubbing Center to filter malicious botnet SYN packets.",
+        "actionType": "ISOLATE_NETWORK",
+        "assetId": "DISP-SRV-02",
+        "status": "PENDING"
+      },
+      {
+        "id": "step2",
+        "title": "Failover to Backup Dedicated Fiber CAD Standby",
+        "command": "failsafe --asset DISP-SRV-02 --engage-hot-standby",
+        "description": "Shift active 112 call-takers to encrypted dedicated fiber-optic CAD intranet hot standby cluster.",
+        "actionType": "ENGAGE_FAILSAFE",
+        "assetId": "DISP-SRV-02",
+        "status": "PENDING"
+      },
+      {
+        "id": "step3",
+        "title": "Notify Police Cyber Crime Cell & ISP Tier-1 NOC",
+        "command": "dispatch --isp-tier1-noc --police-cyber-cell",
+        "description": "Issue emergency abuse report with IP packet dumps to upstream telecom providers for upstream rate-limiting.",
+        "actionType": "DISPATCH_TEAM",
+        "team": "Police Command Telecom Bureau & National Internet Exchange",
+        "status": "PENDING"
+      },
+      {
+        "id": "step4",
+        "title": "Audit Log Forensics & Attack Vector Fingerprinting",
+        "command": "forensics --fingerprint-botnet --archive-waf-logs",
+        "description": "Archive WAF access logs, request signatures, and bot user-agent profiles for cyber investigation.",
+        "actionType": "LOG_FORENSICS",
+        "status": "PENDING"
+      }
+    ],
+    "continuityPlan": "Dedicated PSTN/ISDN copper emergency trunk lines remain 100% operational. Hot standby cluster restores 112 web CAD within 30 seconds."
+  },
+  {
+    "id": "SCN-05-IOT-BOTNET",
+    "title": "Smart Streetlight LoRaWAN Gateway Credential Brute-Force",
+    "sector": "Public Lighting & IoT",
+    "category": "Credential Stuffing & Lateral Pivot Attempt",
+    "targetAssetId": "GW-IOT-99",
+    "secondaryAssetId": "ENV-AIR-05",
+    "mitreId": "T0812: Default Credentials / T0866: Exploitation of Remote Services",
+    "threatLevel": "MEDIUM",
+    "riskScore": 54,
+    "urgency": "Medium (Level-3 Incident)",
+    "attackIngress": {
+      "origin": "Internet-exposed SSH port (22) left active on Edge Streetlight Gateway pole",
+      "entryPath": "Cellular WAN IP -> Linux SSH Daemon on Edge Gateway -> Attempted VLAN Hopping to SCADA",
+      "technique": "Dictionary Credential Stuffing & Default Password Guessing ('admin/admin', 'root/root')"
+    },
+    "maliciousPayload": {
+      "protocol": "SSH-2.0-OpenSSH_8.2p1",
+      "functionCode": "SSH Password Authentication Attempt",
+      "registerTarget": "/etc/shadow & root shell session",
+      "rawHexDump": "53 53 48 2D 32 2E 30 2D 4F 70 65 6E 53 53 48",
+      "injectedValue": "1,480 failed login attempts within 180 seconds"
+    },
+    "detectionEngine": {
+      "method": "Host-Based Intrusion Detection (HIDS) + Edge Firewall Syslog Parser",
+      "triggerRule": "RULE-HIDS-SSH-BURST: More than 10 failed SSH attempts in 60s from untrusted WAN IP",
+      "telemetryAnomaly": "CPU load spiked from 8% to 65% due to cryptographic handshakes; street illumination telemetry dropped to 5 lux",
+      "confidence": "99.9% (System Log Verification)"
+    },
+    "awarenessLesson": {
+      "coreConcept": "IoT Device Hardening & Zero-Trust Network Segmentation",
+      "analystGuideline": "IoT devices are frequently deployed with default credentials. If compromised, attackers use them as bridgeheads to pivot into critical Water or Power networks. Analysts must isolate the gateway and verify robust VLAN segmentation."
+    },
+    "potentialImpact": "Streetlights across Zone 4 could be turned off causing nighttime road hazards; Gateway could be used as an entry bridge into municipal SCADA intranet.",
+    "telemetryChanges": {
+      "lux_average": 5,
+      "energy_saving_pct": 0,
+      "packet_rate_sec": 420
+    },
+    "anomalyEvidence": [
+      "1,480 failed SSH (port 22) password attempts within 3 minutes targeting user 'admin' and 'root'",
+      "Outbound connection detected on TCP port 4444 to known Mirai command-and-control IP",
+      "High rate of unauthenticated LoRa Join-Requests with duplicate DevEUI keys",
+      "Network segmentation firewall blocked unauthorized lateral ping to 10.240.12.10 (Water PLC)"
+    ],
+    "playbook": [
+      {
+        "id": "step1",
+        "title": "Quarantine Gateway WAN & Disable Remote SSH",
+        "command": "isolate --asset GW-IOT-99 --disable-ssh --sever-wan",
+        "description": "Drop external WAN routing for GW-IOT-99 and disable remote SSH daemon via local console command.",
+        "actionType": "ISOLATE_NETWORK",
+        "assetId": "GW-IOT-99",
+        "status": "PENDING"
+      },
+      {
+        "id": "step2",
+        "title": "Engage Autonomous Astronomical Clock Fallback",
+        "command": "failsafe --asset GW-IOT-99 --mode astronomical-timer",
+        "description": "Switch streetlights to autonomous astronomical timer so lights stay turned on regardless of gateway status.",
+        "actionType": "ENGAGE_FAILSAFE",
+        "assetId": "GW-IOT-99",
+        "status": "PENDING"
+      },
+      {
+        "id": "step3",
+        "title": "Assign IoT Security Patching Work Order",
+        "command": "dispatch --team iot-vendor --work-order firmware-patch",
+        "description": "Schedule mandatory firmware upgrade, rotate private LoRa AppKey credentials, and enforce certificate-based SSH.",
+        "actionType": "DISPATCH_TEAM",
+        "team": "Smart City IoT Operations & Vendor Security Support",
+        "status": "PENDING"
+      },
+      {
+        "id": "step4",
+        "title": "Record Incident Log Entry",
+        "command": "forensics --log-bruteforce --verify-vlan-segmentation",
+        "description": "Document failed brute-force vectors and confirm no lateral penetration occurred into Water or Traffic VLANs.",
+        "actionType": "LOG_FORENSICS",
+        "status": "PENDING"
+      }
+    ],
+    "continuityPlan": "Streetlights remain powered on via local photocell/clock sensors. Zero blackout on public roads."
+  }
+]

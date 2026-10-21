@@ -1,0 +1,236 @@
+[
+  {
+    "id": "PLC-WTR-01",
+    "name": "Central Water Pumping Station PLC",
+    "sector": "Water & Sanitation SCADA",
+    "location": "North Reservoir Sector 3",
+    "ip": "10.240.12.10",
+    "protocol": "Modbus TCP (Port 502)",
+    "criticality": "Tier-1 Critical",
+    "status": "HEALTHY",
+    "riskScore": 12,
+    "currentMetrics": {
+      "pressure_bar": 4.2,
+      "flow_rate_lps": 450,
+      "pump_hz": 48.5,
+      "packet_rate_sec": 18
+    },
+    "failSafeStatus": "ARMED",
+    "lastAudit": "2026-10-17 10:15:00",
+    "coordinates": {"lat": 23.033, "lng": 72.585}
+  },
+  {
+    "id": "CHEM-CL-08",
+    "name": "Water Chlorination Dosing Analyzer",
+    "sector": "Water & Sanitation SCADA",
+    "location": "North Treatment Plant",
+    "ip": "10.240.12.18",
+    "protocol": "Modbus RTU / SCADA Bus",
+    "criticality": "Tier-1 Critical",
+    "status": "HEALTHY",
+    "riskScore": 8,
+    "currentMetrics": {
+      "chlorine_ppm": 1.8,
+      "ph_level": 7.3,
+      "dosing_ml_min": 120,
+      "packet_rate_sec": 12
+    },
+    "failSafeStatus": "ARMED",
+    "lastAudit": "2026-10-17 10:20:00",
+    "coordinates": {"lat": 23.038, "lng": 72.591}
+  },
+  {
+    "id": "PRS-VALV-03",
+    "name": "Arterial Water Pressure Transducer",
+    "sector": "Water & Sanitation SCADA",
+    "location": "Civic Distribution Ring B",
+    "ip": "10.240.12.22",
+    "protocol": "DNP3 / Serial RTU",
+    "criticality": "Tier-2 High",
+    "status": "HEALTHY",
+    "riskScore": 10,
+    "currentMetrics": {
+      "pressure_bar": 3.9,
+      "valve_open_pct": 65,
+      "packet_rate_sec": 10
+    },
+    "failSafeStatus": "ARMED",
+    "lastAudit": "2026-10-17 10:18:00",
+    "coordinates": {"lat": 23.029, "lng": 72.578}
+  },
+  {
+    "id": "PLC-TRF-04",
+    "name": "Junction-4 Central Traffic Controller",
+    "sector": "Traffic Management (ITMS)",
+    "location": "Mahatma Gandhi Marg Crossing",
+    "ip": "10.240.20.4",
+    "protocol": "NTCIP / Ethernet",
+    "criticality": "Tier-1 Critical",
+    "status": "HEALTHY",
+    "riskScore": 14,
+    "currentMetrics": {
+      "cycle_time_sec": 90,
+      "active_phase": "Phase 2 North-South",
+      "conflict_monitor": "OK",
+      "packet_rate_sec": 24
+    },
+    "failSafeStatus": "ARMED (Flashing Amber Ready)",
+    "lastAudit": "2026-10-17 10:25:00",
+    "coordinates": {"lat": 23.022, "lng": 72.571}
+  },
+  {
+    "id": "GW-EMP-01",
+    "name": "Emergency Corridor V2X Preemptor",
+    "sector": "Traffic Management (ITMS)",
+    "location": "Hospital Emergency Arterial",
+    "ip": "10.240.20.15",
+    "protocol": "DSRC / V2X 802.11p",
+    "criticality": "Tier-1 Critical",
+    "status": "HEALTHY",
+    "riskScore": 9,
+    "currentMetrics": {
+      "preempt_requests": 2,
+      "signal_override_active": false,
+      "packet_rate_sec": 15
+    },
+    "failSafeStatus": "ARMED",
+    "lastAudit": "2026-10-17 10:22:00",
+    "coordinates": {"lat": 23.018, "lng": 72.565}
+  },
+  {
+    "id": "ANPR-CAM-12",
+    "name": "Highway ANPR Surveillance Gateway",
+    "sector": "Traffic Management (ITMS)",
+    "location": "City Ring Road Toll Plaza",
+    "ip": "10.240.20.30",
+    "protocol": "RTSP / TLS 1.3",
+    "criticality": "Tier-3 Moderate",
+    "status": "HEALTHY",
+    "riskScore": 6,
+    "currentMetrics": {
+      "plates_scanned_min": 85,
+      "video_bitrate_mbps": 4.2,
+      "packet_rate_sec": 60
+    },
+    "failSafeStatus": "STANDALONE_BUFFER",
+    "lastAudit": "2026-10-17 10:10:00",
+    "coordinates": {"lat": 23.008, "lng": 72.550}
+  },
+  {
+    "id": "IED-PWR-07",
+    "name": "Substation 11kV Feeder Protection Relay",
+    "sector": "Power & Energy Grid",
+    "location": "Substation 4 (Civil Hospital Grid)",
+    "ip": "10.240.30.7",
+    "protocol": "IEC 61850 / DNP3",
+    "criticality": "Tier-1 Critical",
+    "status": "HEALTHY",
+    "riskScore": 15,
+    "currentMetrics": {
+      "grid_frequency_hz": 50.02,
+      "bus_voltage_kv": 11.08,
+      "load_current_amps": 380,
+      "breaker_status": "CLOSED (Normal)"
+    },
+    "failSafeStatus": "MECHANICAL_TRIP_LATCH",
+    "lastAudit": "2026-10-17 10:05:00",
+    "coordinates": {"lat": 23.045, "lng": 72.580}
+  },
+  {
+    "id": "INV-SLR-04",
+    "name": "Municipal Solar Microgrid Inverter",
+    "sector": "Power & Energy Grid",
+    "location": "Civic Center Rooftop Microgrid",
+    "ip": "10.240.30.14",
+    "protocol": "SunSpec Modbus / TLS",
+    "criticality": "Tier-2 High",
+    "status": "HEALTHY",
+    "riskScore": 7,
+    "currentMetrics": {
+      "power_kw": 420,
+      "efficiency_pct": 98.2,
+      "grid_sync": "LOCKED"
+    },
+    "failSafeStatus": "ISLAND_MODE_READY",
+    "lastAudit": "2026-10-17 10:12:00",
+    "coordinates": {"lat": 23.036, "lng": 72.568}
+  },
+  {
+    "id": "DISP-SRV-02",
+    "name": "Emergency 112 Unified Dispatch CAD Server",
+    "sector": "Public Safety & Governance",
+    "location": "Municipal Command & Control Center",
+    "ip": "10.240.40.2",
+    "protocol": "HTTPS / WSS / REST API",
+    "criticality": "Tier-1 Critical",
+    "status": "HEALTHY",
+    "riskScore": 11,
+    "currentMetrics": {
+      "active_calls": 34,
+      "server_cpu_pct": 22,
+      "req_per_sec": 140,
+      "db_latency_ms": 14
+    },
+    "failSafeStatus": "GEO_REDUNDANT_CLUSTER",
+    "lastAudit": "2026-10-17 10:28:00",
+    "coordinates": {"lat": 23.030, "lng": 72.573}
+  },
+  {
+    "id": "SRV-EGOV-01",
+    "name": "Smart Citizen e-Governance Portal",
+    "sector": "Public Safety & Governance",
+    "location": "Smart City Cloud Datacenter",
+    "ip": "10.240.40.10",
+    "protocol": "HTTPS (Port 443)",
+    "criticality": "Tier-2 High",
+    "status": "HEALTHY",
+    "riskScore": 9,
+    "currentMetrics": {
+      "concurrent_users": 1820,
+      "server_cpu_pct": 31,
+      "req_per_sec": 310,
+      "db_latency_ms": 18
+    },
+    "failSafeStatus": "CDN_CACHED_FALLBACK",
+    "lastAudit": "2026-10-17 10:19:00",
+    "coordinates": {"lat": 23.034, "lng": 72.562}
+  },
+  {
+    "id": "GW-IOT-99",
+    "name": "Smart Public Lighting LoRaWAN Gateway",
+    "sector": "Public Lighting & IoT",
+    "location": "Zone 4 Smart Corridor Pole 102",
+    "ip": "10.240.50.99",
+    "protocol": "MQTT / LoRaWAN 868MHz",
+    "criticality": "Tier-3 Moderate",
+    "status": "HEALTHY",
+    "riskScore": 5,
+    "currentMetrics": {
+      "active_lights": 1420,
+      "lux_average": 28,
+      "energy_saving_pct": 42
+    },
+    "failSafeStatus": "DUSK_DAWN_ASTRONOMICAL_CLOCK",
+    "lastAudit": "2026-10-17 10:00:00",
+    "coordinates": {"lat": 23.025, "lng": 72.589}
+  },
+  {
+    "id": "ENV-AIR-05",
+    "name": "Urban Air Quality & Weather Telemetry Node",
+    "sector": "Public Lighting & IoT",
+    "location": "City Central Park Ambient Mast",
+    "ip": "10.240.50.15",
+    "protocol": "CoAP / 6LoWPAN",
+    "criticality": "Tier-4 Low",
+    "status": "HEALTHY",
+    "riskScore": 4,
+    "currentMetrics": {
+      "aqi_pm25": 68,
+      "temp_c": 31.4,
+      "humidity_pct": 52
+    },
+    "failSafeStatus": "LOCAL_FLASH_STORAGE",
+    "lastAudit": "2026-10-17 09:55:00",
+    "coordinates": {"lat": 23.028, "lng": 72.583}
+  }
+]

@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SURAKSHA-CITY | Smart City & Critical Infrastructure Cyber Resilience Center</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+</head>
+<body>
+
+  <!-- Mobile Drawer Backdrop Overlay -->
+  <div class="mobile-backdrop" id="mobile-backdrop" onclick="toggleMobileSidebar(false)"></div>
+
+  <!-- ========================================================
+       LEFT VERTICAL SIDEBAR NAVIGATION (FIGMA SAAS STYLE)
+       ======================================================== -->
+  <aside class="soc-sidebar" id="soc-sidebar" aria-label="Sidebar Navigation">
+    <!-- Brand / Logo Header -->
+    <div class="sidebar-brand">
+      <div class="sidebar-logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+      </div>
+      <div class="sidebar-brand-text">
+        <div class="sidebar-brand-title">SURAKSHA-CITY</div>
+        <div class="sidebar-brand-badge">AI-SOC v2.6 • PS-4</div>
+      </div>
+      <!-- Close button on mobile -->
+      <button class="sidebar-close-btn" onclick="toggleMobileSidebar(false)" aria-label="Close Sidebar">&times;</button>
+    </div>
+
+    <!-- Navigation Menu Items -->
+    <nav class="sidebar-nav">
+      <div class="sidebar-nav-group-title">CORE OPERATIONS</div>
+
+      <button class="nav-item active tab-btn" data-tab="overview">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        <span class="nav-label">City Map & Topology</span>
+      </button>
+
+      <button class="nav-item tab-btn" data-tab="alerts">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <span class="nav-label">Prioritized Threat Alerts</span>
+        <span class="nav-badge alert-count-badge" id="tab-alert-badge" style="display:none;">0</span>
+      </button>
+
+      <button class="nav-item tab-btn" data-tab="playbook">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="4 17 10 11 4 5"/>
+          <line x1="12" y1="19" x2="20" y2="19"/>
+        </svg>
+        <span class="nav-label">SOAR Playbook & CLI</span>
+        <span class="nav-dot-active" id="tab-playbook-dot" style="display:none;"></span>
+      </button>
+
+      <div class="sidebar-nav-group-title">WARFARE & AUDIT</div>
+
+      <button class="nav-item tab-btn" data-tab="simulator">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+        <span class="nav-label">Attack Simulation Sandbox</span>
+      </button>
+
+      <button class="nav-item tab-btn" data-tab="logs">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+        </svg>
+        <span class="nav-label">Audit Logs & Compliance</span>
+      </button>
+
+      <div class="sidebar-nav-group-title">KNOWLEDGE & DEFENSE</div>
+
+      <button class="nav-item tab-btn" data-tab="awareness">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+        <span class="nav-label">Cyber Awareness Hub</span>
+      </button>
+
+      <button class="nav-item tab-btn presentation-btn" data-tab="presentation">
+        <svg class="nav-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="7"/>
+          <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+        </svg>
+        <span class="nav-label">Pitch Deck & Defense</span>
+      </button>
+    </nav>
+
+    <!-- Sidebar Bottom Profile / System Status Card -->
+    <div class="sidebar-profile">
+      <div class="profile-avatar">SC</div>
+      <div class="profile-info">
+        <div class="profile-name">Chief SOC Analyst</div>
+        <div class="profile-role">
+          <span class="profile-status-dot"></span>
+          <span>Online • L3 SecOps</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================
+       MAIN APP CONTAINER (RIGHT OF SIDEBAR)
+       ======================================================== -->
+  <div class="soc-main-layout">
+
+    <!-- Top App Bar / Header -->
+    <header class="soc-topbar">
+      <!-- Left: Mobile Menu + Breadcrumb & Search -->
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" id="mobile-menu-btn" onclick="toggleMobileSidebar()" aria-label="Toggle Mobile Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <div class="topbar-breadcrumbs">
+          <span class="breadcrumb-root">SURAKSHA-CITY</span>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-active" id="topbar-current-tab">City Map & Topology</span>
+        </div>
+
+        <div class="topbar-search-box">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" id="global-search-input" placeholder="Search assets, Modbus, IP, CVEs..." autocomplete="off">
+          <span class="search-shortcut-badge">Ctrl K</span>
+        </div>
+      </div>
+
+      <!-- Right: Live Clock, Theme Toggle, Siren Toggle, Quick Trigger & Threat Posture -->
+      <div class="topbar-right">
+        <div class="clock-chip">
+          <span class="clock-sync-dot"></span>
+          <span id="soc-clock">10:30:00 IST</span>
+        </div>
+
+        <!-- Light / Dark Mode Toggle Button -->
+        <button class="topbar-action-btn theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+          <span id="theme-icon">☀️</span>
+          <span id="theme-label" class="theme-text">Light</span>
+        </button>
+
+        <button class="topbar-action-btn" id="audio-toggle-btn" onclick="toggleAudio()" title="Toggle Audio Siren">
+          <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          </svg>
+          <span id="audio-btn-label">Siren: ON</span>
+        </button>
+
+        <button class="topbar-action-btn danger" onclick="switchTab('simulator')" title="Inject Simulated Attack">
+          <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+          <span>Inject Attack</span>
+        </button>
+
+        <div class="posture-chip" id="soc-status-chip">
+          <span class="pulse-dot" id="pulse-indicator"></span>
+          <span id="soc-status-text">DEFENSE NOMINAL</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Active Incident Emergency Ribbon (Displayed dynamically when attacks occur) -->
+    <div class="active-incident-banner" id="active-incident-banner" style="display:none;">
+      <div class="incident-banner-info">
+        <span class="siren-icon">🚨</span>
+        <div>
+          <div class="incident-banner-title" id="banner-title">CRITICAL INCIDENT DETECTED</div>
+          <div class="incident-banner-sub" id="banner-desc">Target Asset Compromised • SOAR Playbook Armed</div>
+        </div>
+      </div>
+      <div>
+        <button class="incident-banner-btn" onclick="switchTab('playbook')">⚡ Engage Response Playbook</button>
+      </div>
+    </div>
+
+    <!-- Spacious Figma-Style Key Performance Indicators (Hero Metrics Row) -->
+    <section class="kpi-container">
+      <div class="kpi-card success">
+        <div class="kpi-header-row">
+          <div class="kpi-label">City Resilience Index</div>
+          <div class="kpi-icon-pill success" title="Resilience Index">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="m9 12 2 2 4-4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="kpi-value-row">
+          <span class="kpi-value" id="kpi-resilience">98.4%</span>
+          <span class="kpi-trend-pill success" id="kpi-resilience-trend">▲ 0.4% Nominal</span>
+        </div>
+        <div class="kpi-subtext" id="kpi-resilience-sub">Grid & Telemetry Nominal</div>
+      </div>
+
+      <div class="kpi-card critical">
+        <div class="kpi-header-row">
+          <div class="kpi-label">Active Threat Posture</div>
+          <div class="kpi-icon-pill critical" title="Threat Posture">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+        </div>
+        <div class="kpi-value-row">
+          <span class="kpi-value" id="kpi-threat-level">LOW</span>
+        </div>
+        <div class="kpi-subtext">Zero Day & ICS Modbus Anomaly Detection</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-header-row">
+          <div class="kpi-label">Monitored SCADA / IT Assets</div>
+          <div class="kpi-icon-pill" title="Monitored Assets">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
+              <line x1="6" y1="6" x2="6.01" y2="6"/>
+              <line x1="6" y1="18" x2="6.01" y2="18"/>
+            </svg>
+          </div>
+        </div>
+        <div class="kpi-value-row">
+          <span class="kpi-value" id="kpi-assets-count">0 / 12 Total</span>
+        </div>
+        <div class="kpi-subtext">Water • Traffic • Power • 112 CAD • IoT</div>
+      </div>
+
+      <div class="kpi-card warning">
+        <div class="kpi-header-row">
+          <div class="kpi-label">Prioritized Threat Alerts</div>
+          <div class="kpi-icon-pill warning" title="Threat Alerts">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </div>
+        </div>
+        <div class="kpi-value-row">
+          <span class="kpi-value" id="kpi-alerts-count">0</span>
+        </div>
+        <div class="kpi-subtext">Dynamic Triage: Impact × Urgency</div>
+      </div>
+
+      <div class="kpi-card info">
+        <div class="kpi-header-row">
+          <div class="kpi-label">SOAR Response MTTR</div>
+          <div class="kpi-icon-pill info" title="Response MTTR">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+        </div>
+        <div class="kpi-value-row">
+          <span class="kpi-value" style="color:var(--accent-blue);">1m 45s</span>
+          <span class="kpi-trend-pill info">SLA: &lt; 2m</span>
+        </div>
+        <div class="kpi-subtext">Automated Device Containment SLA</div>
+      </div>
+    </section>
+
+    <!-- Main Content Workspace (Tab Panes) -->
+    <main class="main-content">
+
+      <!-- ========================================================
+           TAB 1: OVERVIEW & MAP (CITY TOPOLOGY)
+           ======================================================== -->
+      <section class="tab-pane active" id="tab-overview">
+        <!-- Sector Filter Pills with Counts -->
+        <div class="filter-bar">
+          <span class="filter-label">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+            </svg>
+            Filter Sector:
+          </span>
+          <button class="filter-pill active" data-sector="ALL">
+            <span class="filter-icon">🌐</span>
+            <span>All Sectors (12)</span>
+          </button>
+          <button class="filter-pill" data-sector="Water">
+            <span class="filter-icon">💧</span>
+            <span>Water & Sanitation (3)</span>
+          </button>
+          <button class="filter-pill" data-sector="Traffic">
+            <span class="filter-icon">🚦</span>
+            <span>Traffic ITMS (3)</span>
+          </button>
+          <button class="filter-pill" data-sector="Power">
+            <span class="filter-icon">⚡</span>
+            <span>11kV Power Grid (2)</span>
+          </button>
+          <button class="filter-pill" data-sector="Safety">
+            <span class="filter-icon">🚨</span>
+            <span>112 CAD & Safety (2)</span>
+          </button>
+          <button class="filter-pill" data-sector="Lighting">
+            <span class="filter-icon">💡</span>
+            <span>Smart Lighting & IoT (2)</span>
+          </button>
+        </div>
+
+        <div class="overview-grid">
+          <!-- Interactive City Map Panel -->
+          <div class="map-panel">
+            <div class="panel-header">
+              <div>
+                <div class="panel-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand-purple)" stroke-width="2">
+                    <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+                    <line x1="8" y1="2" x2="8" y2="18"/>
+                    <line x1="16" y1="6" x2="16" y2="22"/>
+                  </svg>
+                  Smart City Critical Infrastructure Geospatial Topology
+                </div>
+                <div class="panel-subtitle">Interactive SCADA OT ring interconnecting municipal nodes. Click any node to inspect telemetry.</div>
+              </div>
+              <div class="map-legend">
+                <span class="legend-dot green"></span> <span>Healthy</span>
+                <span class="legend-dot amber"></span> <span>Warning</span>
+                <span class="legend-dot red"></span> <span>Compromised</span>
+                <span class="legend-dot purple"></span> <span>Isolated</span>
+              </div>
+            </div>
+            <div class="map-svg-container" id="city-map-container">
+              <!-- Rendered dynamically by map.js -->
+            </div>
+          </div>
+
+          <!-- Autonomous Resilience & Hackathon Context Panel -->
+          <div class="map-panel defense-panel">
+            <div>
+              <div class="panel-header">
+                <div class="panel-title">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand-purple)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="m9 12 2 2 4-4"/>
+                  </svg>
+                  Defense & Resilience Highlights
+                </div>
+              </div>
+              <div class="defense-highlights-list">
+                <div class="defense-highlight-item cyan">
+                  <div class="defense-highlight-header">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand-purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                    <strong>Zero-Trust Device Isolation:</strong>
+                  </div>
+                  <p>Instantly severs compromised OT PLCs / traffic controllers from upstream SCADA optical ring within 200 milliseconds.</p>
+                </div>
+
+                <div class="defense-highlight-item warning">
+                  <div class="defense-highlight-header">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--status-warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                    </svg>
+                    <strong>Graceful Degradation & Fail-Safes:</strong>
+                  </div>
+                  <p>Critical infrastructure switches to mechanical pressure relief, traffic flashing amber, and hospital diesel microgrids without civic disruption.</p>
+                </div>
+
+                <div class="defense-highlight-item success">
+                  <div class="defense-highlight-header">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--status-healthy)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                      <polyline points="22 4 12 14.01 9 11.01"/>
+                    </svg>
+                    <strong>Automated CERT-In & Police Dispatch:</strong>
+                  </div>
+                  <p>Generates standardized cryptographic forensic hashes (SHA-256) and notifies specialized municipal emergency teams in one click.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="hackathon-footer-card">
+              <div class="hackathon-meta-row">
+                <span class="meta-label">Problem Statement:</span>
+                <strong class="meta-val highlight">PS-4 Smart City Cybersecurity</strong>
+              </div>
+              <div class="hackathon-meta-row">
+                <span class="meta-label">Organized by:</span>
+                <strong class="meta-val">Adani University & Demmisto Technologies</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCADA & IT Asset Inventory Grid -->
+        <div class="assets-section">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">📡 Monitored SCADA / IoT Asset Inventory & Real-Time Telemetry</div>
+              <div class="panel-subtitle">Real-time sensor telemetry, fail-safe interlock status, and air-gap quarantine controls.</div>
+            </div>
+            <span class="panel-badge-sub">12 Air-Gapped Physical & Virtual Devices</span>
+          </div>
+          <div class="assets-grid" id="assets-grid">
+            <!-- Rendered dynamically by app.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           TAB 2: ALERTS QUEUE
+           ======================================================== -->
+      <section class="tab-pane" id="tab-alerts">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">⚠️ Prioritized Cyber Threat & Anomaly Alert Queue</div>
+            <p class="panel-subtitle">Sorted by Composite Risk Score = Impact × Urgency × Likelihood. Mapped to MITRE ATT&CK for ICS.</p>
+          </div>
+        </div>
+        <div class="alerts-container" id="alerts-container">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </section>
+
+      <!-- ========================================================
+           TAB 3: PLAYBOOK / SOAR (SPLIT 2-COLUMN WORKSPACE WITH CLI)
+           ======================================================== -->
+      <section class="tab-pane" id="tab-playbook">
+        <div class="playbook-split-workspace">
+
+          <!-- LEFT COLUMN: Incident Details & Structured SOAR Checklist -->
+          <div class="playbook-left-col" id="playbook-left-col">
+            <!-- Rendered dynamically by app.js (Checklist, incident selector pills, progress) -->
+          </div>
+
+          <!-- RIGHT COLUMN: Permanent Interactive Cyber Terminal (CLI) -->
+          <div class="playbook-right-col" id="playbook-terminal-wrapper">
+            <div class="soc-terminal-container">
+              <div class="terminal-header">
+                <div class="terminal-header-left">
+                  <div class="terminal-dots">
+                    <div class="terminal-dot dot-red"></div>
+                    <div class="terminal-dot dot-yellow"></div>
+                    <div class="terminal-dot dot-green"></div>
+                  </div>
+                  <div class="terminal-title">💻 SOC ANALYST LIVE COMMAND TERMINAL</div>
+                </div>
+                <div class="terminal-header-right">
+                  <button class="terminal-tool-btn" onclick="copyTerminalOutput()" title="Copy Terminal Output">📋 Copy</button>
+                  <button class="terminal-tool-btn" onclick="runQuickCommand('clear')" title="Clear Screen">🗑️ Clear</button>
+                  <span class="terminal-badge">TTY-01 • ZERO-TRUST SHELL</span>
+                </div>
+              </div>
+
+              <!-- Terminal Output Display -->
+              <div class="terminal-body" id="soc-terminal-body">
+                <!-- Terminal log lines appended dynamically -->
+              </div>
+
+              <!-- Persistent Terminal Input Line (NEVER DESTROYED DURING POLLING!) -->
+              <div class="terminal-input-bar">
+                <span class="terminal-prompt-label">soc-analyst@suraksha-soc:~$</span>
+                <input type="text" id="terminal-cli-input" class="terminal-input" 
+                       placeholder="Type command (e.g. isolate, failsafe, dispatch, status, help)..." 
+                       autocomplete="off" spellcheck="false">
+                <button class="terminal-send-btn" id="terminal-send-btn" onclick="sendTerminalCommand()">
+                  Execute ↵
+                </button>
+              </div>
+
+              <!-- Quick Action Command Pills -->
+              <div class="terminal-quick-actions">
+                <span class="quick-actions-label">Quick Containment Actions:</span>
+                <div class="quick-commands-bar" id="quick-commands-bar">
+                  <button class="command-quick-btn" onclick="runQuickCommand('isolate')">⚡ isolate</button>
+                  <button class="command-quick-btn" onclick="runQuickCommand('failsafe')">⚡ failsafe</button>
+                  <button class="command-quick-btn" onclick="runQuickCommand('dispatch')">⚡ dispatch</button>
+                  <button class="command-quick-btn" onclick="runQuickCommand('forensics')">⚡ forensics</button>
+                  <button class="command-quick-btn" onclick="runQuickCommand('verify')">⚡ verify</button>
+                  <button class="command-quick-btn" onclick="runQuickCommand('status')">⚡ status</button>
+                  <button class="command-quick-btn" onclick="runQuickCommand('help')">⚡ help</button>
+                  <button class="command-quick-btn" onclick="runQuickCommand('clear')">⚡ clear</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ========================================================
+           TAB 4: SIMULATION SANDBOX (RED TEAM ATTACK INJECTOR)
+           ======================================================== -->
+      <section class="tab-pane" id="tab-simulator">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">⚡ Safe Attack Simulation & Red-Team Scenario Injector</div>
+            <p class="panel-subtitle">
+              Strictly simulated environment compliant with guideline: <em>"Do not scan, access, disrupt, or attack real city infrastructure."</em>
+            </p>
+          </div>
+        </div>
+
+        <!-- Coordinated Multi-Attack Cyber Warfare Banner -->
+        <div class="launch-all-banner">
+          <div>
+            <div class="launch-all-title">
+              🔥 Coordinated Multi-Sector Cyber Warfare (All Attacks Concurrently)
+            </div>
+            <p class="launch-all-desc">
+              Inject simultaneous attacks across Water SCADA, Traffic ITMS, 11kV Power Grid, 112 Dispatch CAD, and Smart Streetlights to test full SOC resilience.
+            </p>
+          </div>
+          <button class="launch-all-btn" onclick="triggerSimulation('ALL')">
+            ⚡ Launch All 5 Attacks Simultaneously
+          </button>
+        </div>
+
+        <div class="scenarios-grid" id="scenarios-grid">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </section>
+
+      <!-- ========================================================
+           TAB 5: INCIDENT LOGS & COMPLIANCE RECORDS
+           ======================================================== -->
+      <section class="tab-pane" id="tab-logs">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">📜 Immutable Incident Audit Log & Legal Compliance Records</div>
+            <p class="panel-subtitle">CERT-In 2026 & ISO/IEC 27001 Regulatory Reporting. Tamper-proof audit trails.</p>
+          </div>
+          <div class="table-search-box">
+            <input type="text" id="logs-search-input" placeholder="Filter audit logs..." oninput="filterIncidentLogs(this.value)">
+          </div>
+        </div>
+        <div class="logs-table-container">
+          <table class="logs-table">
+            <thead>
+              <tr>
+                <th>Incident ID</th>
+                <th>Timestamp</th>
+                <th>Sector</th>
+                <th>Threat Category</th>
+                <th>Status</th>
+                <th>Duty Operator</th>
+                <th>Action / Audit</th>
+              </tr>
+            </thead>
+            <tbody id="incident-logs-tbody">
+              <!-- Rendered dynamically by app.js -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           TAB 6: CYBERSECURITY AWARENESS & ANALYST GUIDE HUB
+           ======================================================== -->
+      <section class="tab-pane" id="tab-awareness">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">🎓 Smart City Cybersecurity Awareness & SOC Analyst Training Hub</div>
+            <p class="panel-subtitle">
+              Educational guidelines on how infrastructure attacks are executed, how systems detect them, and mandatory incident response actions for analysts.
+            </p>
+          </div>
+        </div>
+
+        <div class="awareness-grid">
+          <div class="awareness-card">
+            <div>
+              <h3>🏛️ 1. Why Smart Cities are Vulnerable: IT vs. OT</h3>
+              <p>
+                Traditional enterprise IT security prioritizes <strong>Confidentiality</strong> (preventing data leaks). In contrast, Smart City Operational Technology (OT / SCADA) prioritizes <strong>Human Life Safety and System Availability</strong>.
+              </p>
+              <div class="golden-rule-box">
+                <strong>The Legacy Protocol Trap:</strong> Industrial protocols like Modbus (1979) and DNP3 were engineered before the internet existed. They contain <em>zero cryptographic authentication</em>—any device that gains network access can command pumps or trip power breakers.
+              </div>
+            </div>
+            <div class="card-footer-note">
+              Reference: ISA/IEC 62443 Security for Industrial Automation
+            </div>
+          </div>
+
+          <div class="awareness-card">
+            <div>
+              <h3>⚡ 2. Anatomy of an Attack: How Breaches Occur</h3>
+              <p>
+                Smart city cyber attacks rarely start with movies-style brute force. They infiltrate through secondary bridges:
+              </p>
+              <ul class="awareness-list">
+                <li><strong>Physical Roadside Taps:</strong> Splicing into roadside traffic cabinets.</li>
+                <li><strong>Third-Party Vendor VPNs:</strong> Compromised HVAC or maintenance contractor laptops.</li>
+                <li><strong>Man-in-the-Middle (MitM):</strong> Injecting false setpoints while falsifying human operator screens.</li>
+              </ul>
+              <div class="golden-rule-box danger">
+                <strong>Dangerous Consequence:</strong> Physical overpressure, conflicting green traffic signals, and hospital ICU blackouts.
+              </div>
+            </div>
+            <div class="card-footer-note">
+              Mapped to: MITRE ATT&CK for Industrial Control Systems (ICS)
+            </div>
+          </div>
+
+          <div class="awareness-card">
+            <div>
+              <h3>🔍 3. How Modern Systems Detect Attacks</h3>
+              <p>
+                SURAKSHA-CITY employs multi-layered kinetic cyber detection:
+              </p>
+              <ul class="awareness-list">
+                <li><strong>Deep Packet Inspection (DPI):</strong> Flags unauthorized Modbus Function Code 0x10 from non-whitelisted IPs.</li>
+                <li><strong>Physics-Based Telemetry Anomalies:</strong> Detects hydraulic pressure derivatives ($dP/dt > 1.6\text{ Bar/s}$) before pipe burst.</li>
+                <li><strong>Hardware Interlock Trips:</strong> Voltage monitors trip Conflict Monitor Units (CMU) on traffic faces.</li>
+              </ul>
+            </div>
+            <div class="card-footer-note">
+              Detection Engine: Dynamic Signature + Physical Sensor Correlation
+            </div>
+          </div>
+
+          <div class="awareness-card full-width">
+            <div>
+              <h3 class="highlight-cyan">🛡️ The 5 Golden Rules for Infrastructure SOC Analysts</h3>
+              <p style="margin-bottom:16px;">
+                When alarms trigger in a Municipal Security Operations Center, analysts must execute these 5 non-negotiable steps:
+              </p>
+              <div class="golden-rules-grid">
+                <div class="rule-box red">
+                  <strong>1. DO NOT Power Down Blindly</strong>
+                  <p>Abruptly cutting power to a water pump causes massive hydraulic water hammer ruptures. Always engage mechanical fail-safes first.</p>
+                </div>
+                <div class="rule-box cyan">
+                  <strong>2. Zero-Trust Network Isolation</strong>
+                  <p>Sever the compromised Ethernet / 802.1X switch port remotely to stop malicious packet streams without shutting down the physical plant.</p>
+                </div>
+                <div class="rule-box warning">
+                  <strong>3. Engage Hardware Fail-Safes</strong>
+                  <p>Switch traffic signals to Flashing Amber, trigger pneumatic pressure relief valves, and island hospital microgrids.</p>
+                </div>
+                <div class="rule-box success">
+                  <strong>4. Lock Cryptographic Evidence</strong>
+                  <p>Capture PCAP dumps, compute SHA-256 hashes, and archive logs for legal prosecution and CERT-In compliance.</p>
+                </div>
+                <div class="rule-box purple">
+                  <strong>5. Verify Civic Continuity</strong>
+                  <p>Confirm that secondary gravity reservoir lines, ambulance corridors, and microgrids keep public services 100% active.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================================
+           TAB 7: PRESENTATION PITCH DECK & DEFENSE
+           ======================================================== -->
+      <section class="tab-pane" id="tab-presentation">
+        <div class="pitch-container">
+          <!-- Slide Deck Toolbar -->
+          <div class="slide-deck-toolbar">
+            <div class="slide-counter-badge" id="slide-counter-badge">Slide 1 of 6</div>
+            <div class="slide-nav-buttons">
+              <button class="slide-nav-btn" onclick="navigateSlide(-1)">◀ Previous</button>
+              <button class="slide-nav-btn primary" onclick="navigateSlide(1)">Next ▶</button>
+            </div>
+          </div>
+
+          <div class="pitch-slide-card" data-slide-index="0">
+            <div class="pitch-slide-title">
+              <span>Slide 1 • The Problem & Who is Affected</span>
+            </div>
+            <ul class="pitch-bullets">
+              <li><strong>The Real-World Crisis:</strong> Modern smart cities integrate OT (Operational Technology) like water valves, traffic controllers, and power grids with municipal IT networks. A single cyber breach can cause catastrophic physical consequences: contaminated water, arterial traffic collisions, or blackout at district hospitals.</li>
+              <li><strong>Who is Affected:</strong> Millions of urban citizens, municipal emergency services (Ambulance, Fire, Police), and city operations engineers who suffer from alert fatigue and lack coordinated cross-sector containment tools.</li>
+              <li><strong>The Core Bottleneck:</strong> Existing SOCs monitor IT packets, but fail to comprehend physical ICS/SCADA safety interlocks or trigger automated graceful service degradation.</li>
+            </ul>
+          </div>
+
+          <div class="pitch-slide-card" data-slide-index="1">
+            <div class="pitch-slide-title">
+              <span>Slide 2 • Our Practical Solution: SURAKSHA-CITY</span>
+            </div>
+            <ul class="pitch-bullets">
+              <li><strong>Unified Multi-Sector Cyber Resilience Platform:</strong> Consolidates Water SCADA, Intelligent Traffic (ITMS), 11kV Substation Grid, Emergency 112 CAD, and Smart Streetlight IoT onto a single intuitive command pane.</li>
+              <li><strong>Intelligent Impact × Urgency Triage:</strong> Dynamically calculates composite risk scores, differentiating harmless sensor noise from life-critical valve tampering or traffic signal collisions.</li>
+              <li><strong>Interactive Step-by-Step SOAR Response Playbook:</strong> One-click Zero-Trust device quarantine, immediate physical fail-safe triggering, and automated dispatch to CERT-In, Municipal Engineers, and Police.</li>
+            </ul>
+          </div>
+
+          <div class="pitch-slide-card" data-slide-index="2">
+            <div class="pitch-slide-title">
+              <span>Slide 3 • Live Attack & Mitigation Workflow</span>
+            </div>
+            <ul class="pitch-bullets">
+              <li><strong>Step 1 (Attack Injection):</strong> Red-team triggers Stuxnet-style overpressure attack on Central Water PLC (PLC-WTR-01) or All-Green collision exploit on Junction-4 Traffic Controller.</li>
+              <li><strong>Step 2 (Instant Triage):</strong> Dashboard triggers audio-visual siren, elevates Threat Level to CRITICAL, updates geospatial map, and flags MITRE ATT&CK for ICS vectors.</li>
+              <li><strong>Step 3 (Operator Execution):</strong> Operator executes containment via interactive CLI or GUI: isolates target network port, trips mechanical fail-safe bypass, dispatches response teams, and preserves cryptographic evidence.</li>
+              <li><strong>Step 4 (Resolution & Sign-Off):</strong> Incident is archived with digital compliance signature and CERT-In audit report generation.</li>
+            </ul>
+          </div>
+
+          <div class="pitch-slide-card" data-slide-index="3">
+            <div class="pitch-slide-title">
+              <span>Slide 4 • Resilience & Public Service Continuity</span>
+            </div>
+            <ul class="pitch-bullets">
+              <li><strong>Fail-Safe Architecture:</strong> When the traffic controller is compromised, hardware conflict monitors switch lights to Flashing Amber within 200ms; when the water PLC is tampered, pneumatic relief valves prevent pipe rupture while secondary gravity feeds supply hospitals.</li>
+              <li><strong>Graceful Degradation:</strong> Public services remain 100% operational in fallback mode even during aggressive zero-day intrusions.</li>
+              <li><strong>Measurable Impact:</strong> Reduces incident response MTTR from 45 minutes to under 2 minutes, preventing civic chaos and structural loss.</li>
+            </ul>
+          </div>
+
+          <div class="pitch-slide-card" data-slide-index="4">
+            <div class="pitch-slide-title">
+              <span>Slide 5 • Responsible Design, Safety & Ethical Guidelines</span>
+            </div>
+            <ul class="pitch-bullets">
+              <li><strong>Strict Simulation Sandboxing:</strong> In full compliance with hackathon instructions, NO real city infrastructure is scanned or touched; telemetry is generated via an air-gapped synthetic ICS telemetry engine.</li>
+              <li><strong>Privacy Preserving:</strong> Does not collect or store citizen PII, CCTV facial scans, or private data.</li>
+              <li><strong>Operator-in-the-Loop:</strong> AI and automated heuristics recommend prioritized actions, but critical containment decisions require explicit human operator confirmation.</li>
+            </ul>
+          </div>
+
+          <div class="pitch-slide-card" data-slide-index="5">
+            <div class="pitch-slide-title">
+              <span>Slide 6 • 4-Student Team Roles & Contribution Matrix</span>
+            </div>
+            <ul class="pitch-bullets">
+              <li><strong>Student 1 (Team Leader & SOC Architecture):</strong> Platform architecture, ICS threat modeling, composite risk scoring engine, and presentation delivery.</li>
+              <li><strong>Student 2 (Backend & Simulation Engine):</strong> Python REST API, synthetic SCADA telemetry generator, and state management.</li>
+              <li><strong>Student 3 (Frontend & Geo-Spatial UI):</strong> Dark-mode glassmorphic dashboard, SVG city infrastructure topology map, and Web Audio siren synthesis.</li>
+              <li><strong>Student 4 (Incident Response & Compliance):</strong> SOAR response playbooks, CERT-In compliance report templates, and fail-safe resilience verification.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ========================================================
+       MODALS & OVERLAYS
+       ======================================================== -->
+  <!-- MODAL: Resolve Incident Sign-off -->
+  <div class="modal-overlay" id="resolve-modal" onclick="handleModalOverlayClick(event, 'resolve-modal')">
+    <div class="modal-box">
+      <button class="modal-close-btn" onclick="closeResolveModal()" aria-label="Close dialog">&times;</button>
+      <h3 style="color:var(--text-main); margin-bottom:12px;">🛡️ Operator Incident Resolution & Official Sign-Off</h3>
+      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:16px;">
+        Complete sign-off to restore nominal city security posture and archive this event into the immutable audit vault.
+      </p>
+
+      <div style="margin-bottom:14px;">
+        <label style="display:block; font-size:0.75rem; font-weight:700; color:var(--text-muted); margin-bottom:6px;">
+          Duty SOC Officer Name / Badge ID:
+        </label>
+        <input type="text" id="resolve-operator-name" value="Cyber Commander (Adani & Demmisto SOC Team)" 
+               class="modal-input">
+      </div>
+
+      <div style="margin-bottom:18px;">
+        <label style="display:block; font-size:0.75rem; font-weight:700; color:var(--text-muted); margin-bottom:6px;">
+          Forensic Incident Findings & Mitigation Notes:
+        </label>
+        <textarea id="resolve-notes" rows="4" class="modal-input" style="font-family:sans-serif;"
+        >Rogue packet stream quarantined. Asset network interface successfully isolated via Zero-Trust policy. Physical fail-safes engaged with zero interruption to public civic services.</textarea>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button class="btn-sm btn-secondary" onclick="closeResolveModal()">Cancel</button>
+        <button class="btn-sm btn-primary" onclick="submitResolveIncident()">✓ Confirm Sign-Off & Archive</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Official Incident Audit Certificate View -->
+  <div class="modal-overlay" id="report-modal" onclick="handleModalOverlayClick(event, 'report-modal')">
+    <div class="modal-box" style="max-width:760px;">
+      <button class="modal-close-btn" onclick="closeReportModal()" aria-label="Close dialog">&times;</button>
+      <div id="report-modal-content">
+        <!-- Rendered by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Asset Detail Telemetry -->
+  <div class="modal-overlay" id="asset-modal" onclick="handleModalOverlayClick(event, 'asset-modal')">
+    <div class="modal-box" style="max-width:540px;">
+      <button class="modal-close-btn" onclick="closeAssetModal()" aria-label="Close dialog">&times;</button>
+      <div id="asset-modal-content">
+        <!-- Rendered by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Toast Notification -->
+  <div id="toast-notify" class="toast-notification"></div>
+
+  <!-- Scripts -->
+  <script src="js/audio.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

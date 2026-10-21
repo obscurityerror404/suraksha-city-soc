@@ -1,0 +1,40 @@
+[
+  {
+    "incidentId": "INC-2026-001",
+    "timestamp": "2026-10-17 08:14:22",
+    "sector": "Power & Energy Grid",
+    "assetId": "IED-PWR-07",
+    "assetName": "Substation 11kV Feeder Protection Relay",
+    "threatCategory": "IEC 61850 Port Scan & Routine Probe",
+    "threatLevel": "LOW",
+    "riskScore": 24,
+    "status": "RESOLVED",
+    "operatorNotes": "Automated network intrusion sensor detected Nmap SYN scan from municipal test IP. Verified as scheduled routine vulnerability scan. Port filter rules validated.",
+    "operatorName": "Duty Operator S. Verma (Badge #SOC-402)",
+    "actionsTaken": [
+      "Verified IP against authorized vulnerability scan schedule",
+      "Confirmed Zero-Trust firewall ACL blocks direct relay modification",
+      "Closed ticket with status Normal"
+    ],
+    "continuityImpact": "No impact on power distribution. Grid operations 100% stable."
+  },
+  {
+    "incidentId": "INC-2026-002",
+    "timestamp": "2026-10-17 09:30:15",
+    "sector": "Public Lighting & IoT",
+    "assetId": "ENV-AIR-05",
+    "assetName": "Urban Air Quality & Weather Telemetry Node",
+    "threatCategory": "CoAP Malformed Payload Flood",
+    "threatLevel": "MEDIUM",
+    "riskScore": 48,
+    "status": "RESOLVED",
+    "operatorNotes": "Anomalous telemetry packet burst caused buffer overrun in CoAP parser. Node temporarily quarantined and reset remotely.",
+    "operatorName": "Duty Operator A. Patel (Badge #SOC-108)",
+    "actionsTaken": [
+      "Quarantined CoAP UDP stream at IoT edge router",
+      "Pushed firmware integrity check to environmental mast",
+      "Restored nominal telemetry reporting at 60s intervals"
+    ],
+    "continuityImpact": "Weather dashboard delayed by 8 minutes. No impact on public safety."
+  }
+]
