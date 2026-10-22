@@ -10,9 +10,9 @@
 
 ## 🏛️ Project Context & Problem Statement Alignment
 
-Developed strictly in accordance with **Problem Statement 4: Smart City and Critical Infrastructure Cybersecurity** of the **Cyber Samvad Hackathon 2026** (Organized by **Adani University** and **Demmisto Technologies Pvt. Ltd.**).
+Developed strictly in accordance with **Problem Statement 4: Smart City and Critical Infrastructure Cybersecurity**
 
-| Hackathon Guideline Requirement | SURAKSHA-CITY Implementation |
+| Requirement | SURAKSHA-CITY Implementation |
 | :--- | :--- |
 | **Build a mock dashboard for sample assets (traffic signals, water sensors, public-service servers)** | Interactive geospatial topology and telemetry grid covering **12 critical assets** across Water SCADA, Traffic ITMS, 11kV Power Grid, 112 Dispatch CAD, and Smart Streetlights. |
 | **Display simulated alerts, asset status, and a simple risk level** | Real-time health statuses (`HEALTHY`, `WARNING`, `COMPROMISED`, `ISOLATED`) and composite **Risk Score (1–100)** with dynamic Threat Postures. Supports **multiple concurrent attacks** simultaneously. |
